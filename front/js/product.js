@@ -19,11 +19,10 @@ function load_furnitures() {
     let price = document.getElementById("price");
     let description = document.getElementById("description");
     let option = document.getElementById("colors");
-    colors.forEach(element => console.log(element))
+    
     fetch(`http://localhost:3000/api/products/${id}`)
         .then(Response => Response.json())
         .then(Furniture => {
-
             let content = creatDiv(Furniture);
             let content1 = titleArticle(Furniture);
             let content2 = priceArticle(Furniture);
@@ -34,6 +33,7 @@ function load_furnitures() {
             price.innerHTML += content2;
             description.innerHTML += content3;
             option.innerHTML += content4;
+            console.log(colorArray)
             
         });
 }
@@ -53,12 +53,19 @@ function priceArticle(article) {
     return `${article.price}`
 }
 function descriArticle(article){
-    return`${article.description}`
-}
-function colorArray(article){
-    return `<option value="${article.colors}">${article.colors}</option>
-                <option value="${article.colors}">${article.colors}</option>`
+    return `${article.description}`
 }
 
+function colorArray(article) {
+    let result;
+        if  (article.colors[2]){
+            result = `<option value="${article.colors[0]}">${article.colors[0]}</option>
+                        <option value="${article.colors[1]}">${article.colors[1]}</option>;
+                            <option value="${article.colors[2]}">${article.colors[2]}</option>`;
+        } else{
+            result = `<option value="${article.colors[0]}">${article.colors[0]}</option>
+                        <option value="${article.colors[1]}">${article.colors[1]}</option>`;
+        }
+    return result;
 
-   
+}
