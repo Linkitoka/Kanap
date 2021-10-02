@@ -37,15 +37,11 @@ function load_furnitures() {
             
         });
 }
-/*
-let title = document.getElementById("title"); 
-*/
 
 // Retourne une div avec ses classes son contenu
 function creatDiv(article) {
     return `<img src="${article.imageUrl}" alt="${article.altTxt}"></img>`
 }
-
 function titleArticle(article) {
     return `${article.name}`
 }
@@ -56,6 +52,7 @@ function descriArticle(article){
     return `${article.description}`
 }
 
+// Retourne une fonction pour le choix des couleurs, si oui alors 3 couleurs si non seulement 2
 function colorArray(article) {
     let result;
         if  (article.colors[2]){
@@ -69,3 +66,4 @@ function colorArray(article) {
     return result;
 
 }
+
