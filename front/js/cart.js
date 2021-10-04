@@ -26,6 +26,7 @@ function load_furnitures() {
         });
 }
 
+// Creation du code html pour le panier
 function creatCart(article){
    return `<article class="cart__item" data-id="${article.id}">
                 <div class="cart__item__img">
@@ -62,3 +63,6 @@ function colorArray(article) {
     return result;
 
 }
+
+// Local Storage
+
