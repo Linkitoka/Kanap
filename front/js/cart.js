@@ -21,7 +21,6 @@ function load_furnitures() {
 
             let content = creatCart(Furniture);
             cartLocation.innerHTML += content;
-            console.log(cartLocation)
             
         });
 }
@@ -49,20 +48,20 @@ function creatCart(article){
                 </div>
               </article>`
 }
-// Retourne une fonction pour le choix des couleurs, si oui alors 3 couleurs si non seulement 2
-function colorArray(article) {
-    let result;
-        if  (article.colors[2]){
-            result = `<option value="${article.colors[0]}">${article.colors[0]}</option>
-                        <option value="${article.colors[1]}">${article.colors[1]}</option>;
-                            <option value="${article.colors[2]}">${article.colors[2]}</option>`;
-        } else{
-            result = `<option value="${article.colors[0]}">${article.colors[0]}</option>
-                        <option value="${article.colors[1]}">${article.colors[1]}</option>`;
-        }
-    return result;
 
+let allProduct = {
+  nameProduct: Furniture.name,
+  
 }
-
+console.log(allProduct);
 // Local Storage
+let productAddOnLocalStorage = JSON.parse(localStorage.getItem("products"));
 
+if(productAddOnLocalStorage) {
+
+
+}else{
+  productAddOnLocalStorage = [];
+  productAddOnLocalStorage = [];
+  console.log(productAddOnLocalStorage);
+}

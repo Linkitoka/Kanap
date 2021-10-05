@@ -28,13 +28,43 @@ function load_furnitures() {
             price.innerHTML = Furniture.price;
             description.innerHTML = Furniture.description;
             option.innerHTML = colorArray(Furniture);
-            let add = document.getElementById("addToCart")
 
-            add.addEventListener("click", function () {
+            /*add.addEventListener("click", function () {
                 addToCart(Furniture)
+            })*/
+
+            // Panier
+            // Recupération de l'option de couleurs
+            //selection de l'id du choix des couleurs = colors
+            const idColors = document.querySelector("#colors");
+            //Selection du bouton add to cart
+            const btnSendCart = document.querySelector("#addToCart");
+            console.log(btnSendCart)
+
+            //Envoyer le panier
+            btnSendCart.addEventListener("click", (event) => {
+                event.preventDefault();
             })
+            //Choix de couleurs
+            const choiceColor = idColors.value;
+            console.log(choiceColor)
+            //Récupération des valeurs du formulaire
+            let optionProduct = {
+                colors: choiceColor,
+                id: Furniture._id,
+                name: Furniture.name,
+                price: Furniture.price / 100,
+                imageUrl: Furniture.imageUrl,
+                description: Furniture.description,
+                altTxt: Furniture.altTxt,
+                qte: 1,
+            }
+            console.log(choiceColor)
+
+
         });
 }
+// local storage
 
 // Retourne une div avec ses classes son contenu
 function creatDiv(article) {
@@ -54,7 +84,8 @@ function colorArray(article) {
     return result;
 
 }
-
+/*
 function addToCard(article){
     return None;
 }
+*/
