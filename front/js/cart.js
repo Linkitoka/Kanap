@@ -1,7 +1,7 @@
 // S'execute au chargement de la page
 window.addEventListener('load', function () {
-    // Injecte les données de l'API furniture
-    load_furnitures();
+  // Injecte les données de l'API furniture
+  load_furnitures();
 });
 
 
@@ -11,23 +11,37 @@ const id = params.get("id")
 
 // Rempli la div meubles avec les données de l'API furniture
 function load_furnitures() {
-    
-    
-    let cartLocation = document.getElementById("cart__items");
-    
-    fetch(`http://localhost:3000/api/products/`)
-        .then(Response => Response.json())
-        .then(Furniture => {
+    let div = document.getElementById("items");
 
-            let content = creatCart(Furniture);
-            cartLocation.innerHTML += content;
-            
-        });
+    fetch("http://localhost:3000/api/products")
+    
+  
+  
+
+  let productAddOnLocalStorage = JSON.parse(localStorage.getItem("productLocalStorage"));
+  
+  
+  if (productAddOnLocalStorage === null) {
+    addCartProduct.innerHTML = cartEmpty;
+  } else {
+    let productOnLocalStorage = [];
+    for (object of productAddOnLocalStorage){
+      console.log(object);
+
+    }
+    addProductInCard.innerHTML = cartProductObject;
+  }
 }
-
+let cartEmpty = cartEmptyFunction();
+function cartEmptyFunction () {
+  return `<h1> est vide </h1>`
+}
+let addCartProduct = document.getElementById("cart__items")
 // Creation du code html pour le panier
-function creatCart(article){
-   return `<article class="cart__item" data-id="${article.id}">
+let addProductInCard = document.getElementById("cart__items")
+let cartProductObject = creatCart();
+function creatCart(article) {
+  return `<article class="cart__item" data-id="${article.id}">
                 <div class="cart__item__img">
                   <img src="${article.imageUrl}" alt="${article.altTxt}">
                 </div>
@@ -47,21 +61,4 @@ function creatCart(article){
                   </div>
                 </div>
               </article>`
-}
-
-let allProduct = {
-  nameProduct: Furniture.name,
-  
-}
-console.log(allProduct);
-// Local Storage
-let productAddOnLocalStorage = JSON.parse(localStorage.getItem("products"));
-
-if(productAddOnLocalStorage) {
-
-
-}else{
-  productAddOnLocalStorage = [];
-  productAddOnLocalStorage = [];
-  console.log(productAddOnLocalStorage);
 }

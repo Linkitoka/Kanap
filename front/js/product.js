@@ -30,14 +30,13 @@ function load_furnitures() {
             option.innerHTML = colorArray(Furniture);
 
             // Panier ----------------------
-            // Recupération de l'option de couleurs
-            //selection de l'id du choix des couleurs = colors
+            
+            //Recupération de l'option de couleurs et selection de l'id du choix des couleurs = colors
             const idColors = document.querySelector("#colors");
             //Selection du bouton add to cart
             const btnSendCart = document.querySelector("#addToCart");
-            console.log(btnSendCart)
 
-            //Envoyer le panier
+            //Envoyer dans le panier
             btnSendCart.addEventListener("click", (event) => {
                 event.preventDefault();
                 //Choix de couleurs
@@ -54,45 +53,41 @@ function load_furnitures() {
                     altTxt: Furniture.altTxt,
                     qte: 1,
                 }
+
+                //appel de l'objet JSON dans le localstorage
                 let productAddOnLocalStorage = JSON.parse(localStorage.getItem("productLocalStorage"));
 
-
+                //Si il y a déja une clé, ajouter une autres Sinon Créer la clé.
                 if (productAddOnLocalStorage) {
                     productAddOnLocalStorage.push(optionProduct);
-                    localStorage.setItem("productLocalStorage",JSON.stringify(productAddOnLocalStorage));
-                    console.log(productAddOnLocalStorage);
+                    // convertit une valeur JavaScript en chaîne JSON
+                    localStorage.setItem("productLocalStorage", JSON.stringify(productAddOnLocalStorage));
                     confirmPopup();
-                } else {
 
+                } else {
                     productAddOnLocalStorage = [];
                     productAddOnLocalStorage.push(optionProduct);
-                    localStorage.setItem("productLocalStorage",JSON.stringify(productAddOnLocalStorage));
-
+                    localStorage.setItem("productLocalStorage", JSON.stringify(productAddOnLocalStorage));
                 }
-                //fonction popup
+
+                //function pour la fenêtre popup
                 function confirmPopup() {
                     if (window.confirm(` ${Furniture.name} couleur: ${choiceColor} a bien été ajouté au panier
-    Continuer les achats OK ou aller vers le panier ANNULER`)) {
+                    Continuer les achats OK ou aller vers le panier ANNULER`)) {
                         window.location.href = "index.html";
                     } else {
                         window.location.href = "cart.html";
                     }
-
                 }
             })
-
-
-
         });
 }
-// local storage
-//Stocker les valeurs dans le local storagejj
-
 
 // Retourne une div avec ses classes son contenu
 function creatDiv(article) {
     return `<img src="${article.imageUrl}" alt="${article.altTxt}"></img>`
 }
+
 function descriArticle(article) {
     return `${article.description}`
 }
@@ -105,5 +100,4 @@ function colorArray(article) {
         result += `<option value="${color}">${color}</option>`
     }
     return result;
-
 }
