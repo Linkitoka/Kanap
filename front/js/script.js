@@ -14,7 +14,6 @@ function load_furnitures() {
         .then(Response => Response.json())
         .then(Furniture => {
             for (let element of Furniture) {
-                
                 let content = creatDiv(element)
                 div.innerHTML += content;
                

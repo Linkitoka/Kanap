@@ -11,28 +11,28 @@ function load_furnitures() {
 
 
   let productAddOnLocalStorage = JSON.parse(localStorage.getItem("productLocalStorage"));
-  
+  console.log(productAddOnLocalStorage)
 
   // Creation du code html pour le panier
   let addProductInCard = document.getElementById("cart__items");
    // Creation du code html pour le panier VIDE
-   let addCartProduct = document.getElementById("cart__items");
-  //Variable de la function pour le panier pleins
-  let cartProductObject = creatCart();
+   let addCartProduct = document.getElementById("cartAndFormContainer");
+
+  
   //Variable de la function pour le panier VIDE
   let cartEmpty = cartEmptyFunction();
   let productOfLocal = productAddOnLocalStorage;
 
   //SI le panier est vide alors function vide SINON boucle pour récupéré les objects dans le LocalStorage
-  if (productAddOnLocalStorage === null) {
+  if (!productAddOnLocalStorage) {
     addCartProduct.innerHTML = cartEmpty;
     console.log(cartEmpty);
     
   } else {
- 
-    for (object of productAddOnLocalStorage) {
+    //Variable de la function pour le panier pleins
+    let cartProductObject = creatCart(productAddOnLocalStorage);
       addProductInCard.innerHTML = cartProductObject;
-    }
+      console.log(cartProductObject)
 
   }
 
@@ -41,9 +41,9 @@ function load_furnitures() {
     return `<h1> est vide </h1>`
   }
   //Fuction appeler les objet de mon localStorage dans ma function et les étidté avec leurs nom
-  function creatCart(productAddOnLocalStorage) {
-    let result;
-    for (object of productAddOnLocalStorage.productOfLocal) {
+  function creatCart(products) {
+    let result = "";
+    for ( let object of products) {
       result += `<article class="cart__item" data-id="${object._id}">
                 <div class="cart__item__img">
                   <img src="${object.imageUrl}" alt="${object.altTxt}">
