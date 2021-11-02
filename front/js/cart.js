@@ -33,7 +33,6 @@ function load_furnitures() {
     //Variable de la function pour le panier pleins
     let cartProductObject = creatCart(cart);
     addProductInCard.innerHTML = cartProductObject;
-    
     //total quantity dans le panier 
     let total = getTotal(cart);
     totalQuantity.innerHTML = total.quantity;
@@ -41,6 +40,7 @@ function load_furnitures() {
     //AddEvents ajouter et changer des quantités
     addEvents();
     deleteItem();
+    verification();
     
   }
 
@@ -126,4 +126,36 @@ function load_furnitures() {
     }
     return {quantity: totalQuantity, total: totalPrice};
   }
+  function verification(){
+    //champs a vérifier..
+    let btnOrder = document.getElementById("order");
+    var firstName = document.getElementById("firstName");
+    var errorFirstName = document.getElementById("firstNameErrorMsg");
+    var prenomValid = /^[a-zA-ZéèîïÉÈÎÏ][a-zéèêàçîï]+([-'\s][a-zA-ZéèîïÉÈÎÏ][a-zéèêàçîï]+)?$/;
+            
+    btnOrder.addEventListener('click', validation);
+            
+      function validation(event){
+         //Si le champ est vide
+           if (firstName.validity.valueMissing){
+            event.preventDefault();
+            errorFirstName.textContent = 'Prénom manquant';
+            errorFirstName.style.color = 'red';
+              //Si le format de données est incorrect
+              }else if (prenomValid.test(firstName.value) == false){
+                event.preventDefault();
+                errorFirstName.textContent = 'Format incorrect';
+                errorFirstName.style.color = 'orange';
+                }else{ 
+                }
+            }
+  }
+    
+
+
+
+
+
+
+
 }
