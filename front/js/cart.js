@@ -10,55 +10,58 @@ window.addEventListener('load', function () {
 function load_furnitures() {
 
 
-  let productAddOnLocalStorage = JSON.parse(localStorage.getItem("productLocalStorage"));
-  
+  let cart = JSON.parse(localStorage.getItem("productLocalStorage"));
+
   // Creation du code html pour le panier
   let addProductInCard = document.getElementById("cart__items");
-   // Creation du code html pour le panier VIDE
-   let addCartProduct = document.getElementById("cartAndFormContainer");
+  // Creation du code html pour le panier VIDE
+  let addCartProduct = document.getElementById("cartAndFormContainer");
 
-  
-   
+  // Creation du code html pour le totalquantity du panier
+  let totalQuantity = document.getElementById("totalQuantity");
+  // Creation du code html pour le totalprice du panier
+  let totalPrice = document.getElementById("totalPrice");
+
   //Variable de la function pour le panier VIDE
   let cartEmpty = cartEmptyFunction();
-  let productOfLocal = productAddOnLocalStorage;
 
   //SI le panier est vide alors function vide SINON boucle pour récupéré les objects dans le LocalStorage
-   if (!productAddOnLocalStorage) {
+  if (!cart) {
     addCartProduct.innerHTML = cartEmpty;
-    
+
   } else {
     //Variable de la function pour le panier pleins
-    let cartProductObject = creatCart(productAddOnLocalStorage);
-      addProductInCard.innerHTML = cartProductObject;
-     
+    let cartProductObject = creatCart(cart);
+    addProductInCard.innerHTML = cartProductObject;
+    
+    //total quantity dans le panier 
+    let total = getTotal(cart);
+    totalQuantity.innerHTML = total.quantity;
+    totalPrice.innerHTML = total.total;
+    //AddEvents ajouter et changer des quantités
+    addEvents();
+    deleteItem();
+    
   }
-  /* 
-  if (productAddOnLocalStorage){
-    productAddOnLocalStorage.quantity[choiceColor] += quantity;
-  }else{
-    localStorage.
-  }
-  */
-  
+
+
   //Function intéger pour le panier vide
   function cartEmptyFunction() {
     return `<h1> Votre panier est vide </h1>`
   }
   //Fuction appeler les objet de mon localStorage dans ma function et les étidté avec leurs nom
   function creatCart(products) {
-    console.log(products);
     let result = "";
-    for ( let object in products) {
+    for (let object in products) {
       for (let color in products[object].quantity) {
-      result += `<article class="cart__item" data-id="${object}">
+        result += `<article class="cart__item" data-id="${object}" data-color="${color}">
                 <div class="cart__item__img">
                   <img src="${products[object].imageUrl}" alt="${products[object].altTxt}">
                 </div>
                 <div class="cart__item__content">
                   <div class="cart__item__content__titlePrice">
                     <h2>${products[object].name} <br>Color: ${color}</br></h2>
-                    <p>${products[object].price*100}€</p>
+                    <p>${products[object].price * 10 / 10}€</p>
                   </div>
                   <div class="cart__item__content__settings">
                     <div class="cart__item__content__settings__quantity">
@@ -71,9 +74,56 @@ function load_furnitures() {
                   </div>
                 </div>
               </article>`
-            }
-          }    
-    
+      }
+    }
     return result;
+  }
+  //function pour supprimer un item du panier. (localStorage + HTML)
+  function deleteItem(){
+    let buttons = document.querySelectorAll(".deleteItem");
+    buttons.forEach(button => {
+      button.addEventListener('click', () => {
+        let id = button.parentElement.parentElement.parentElement.parentElement.dataset.id;
+        let color = button.parentElement.parentElement.parentElement.parentElement.dataset.color;
+        let cart = JSON.parse(localStorage.getItem("productLocalStorage"));
+        delete cart[id].quantity[color];
+        localStorage.setItem("productLocalStorage", JSON.stringify(cart));
+        let total = getTotal(cart);
+        totalQuantity.innerHTML = total.quantity;
+        totalPrice.innerHTML = total.total;
+        button.parentElement.parentElement.parentElement.parentElement.remove();
+    })
+  })
+  }
+  //Function pour ajouter ou enlever un produit via les inputs.
+  function addEvents(){
+    let inputs = document.querySelectorAll(".itemQuantity");
+    inputs.forEach(input => {
+      input.addEventListener('change', () => {
+        let id = input.parentElement.parentElement.parentElement.parentElement.dataset.id;
+        let color = input.parentElement.parentElement.parentElement.parentElement.dataset.color;
+        let quantity = input.value;
+        let cart = JSON.parse(localStorage.getItem("productLocalStorage"));
+        cart[id].quantity[color] = parseInt(quantity);
+        localStorage.setItem("productLocalStorage", JSON.stringify(cart));
+        let total = getTotal(cart);
+        totalQuantity.innerHTML = total.quantity;
+        totalPrice.innerHTML = total.total;
+      } )
+    })
+  } 
+  // function qui additionne le total des produits du panier
+  function getTotal(products) {
+    let totalPrice = 0;
+    let totalQuantity = 0;
+    for (let object in products) {
+      let quantity = 0;
+      for (let color in products[object].quantity) {
+        quantity += products[object].quantity[color];
+        totalQuantity += products[object].quantity[color];
+      }
+      totalPrice += quantity*products[object].price;
+    }
+    return {quantity: totalQuantity, total: totalPrice};
   }
 }

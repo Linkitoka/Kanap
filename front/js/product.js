@@ -43,7 +43,7 @@ function load_furnitures() {
                 //Récupération des valeurs du formulaire
                 let optionProduct = {
                     name: Furniture.name,
-                    price: Furniture.price / 100,
+                    price: Furniture.price ,
                     imageUrl: Furniture.imageUrl, 
                     description: Furniture.description,
                     altTxt: Furniture.altTxt,
