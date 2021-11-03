@@ -40,7 +40,10 @@ function load_furnitures() {
     //AddEvents ajouter et changer des quantités
     addEvents();
     deleteItem();
-    verification();
+    verificationFirstName();
+    verificationLastName();
+    verificationAddress();
+    verificationCity();
     
   }
 
@@ -126,12 +129,13 @@ function load_furnitures() {
     }
     return {quantity: totalQuantity, total: totalPrice};
   }
-  function verification(){
+
+  function verificationFirstName(){
     //champs a vérifier..
     let btnOrder = document.getElementById("order");
     var firstName = document.getElementById("firstName");
     var errorFirstName = document.getElementById("firstNameErrorMsg");
-    var prenomValid = /^[a-zA-ZéèîïÉÈÎÏ][a-zéèêàçîï]+([-'\s][a-zA-ZéèîïÉÈÎÏ][a-zéèêàçîï]+)?$/;
+    var nameValid = /^[a-zA-ZéèîïÉÈÎÏ][a-zéèêàçîï]+([-'\s][a-zA-ZéèîïÉÈÎÏ][a-zéèêàçîï]+)?$/;
             
     btnOrder.addEventListener('click', validation);
             
@@ -140,18 +144,96 @@ function load_furnitures() {
            if (firstName.validity.valueMissing){
             event.preventDefault();
             errorFirstName.textContent = 'Prénom manquant';
-            errorFirstName.style.color = 'red';
               //Si le format de données est incorrect
-              }else if (prenomValid.test(firstName.value) == false){
+              }else if (nameValid.test(firstName.value) == false){
                 event.preventDefault();
                 errorFirstName.textContent = 'Format incorrect';
-                errorFirstName.style.color = 'orange';
-                }else{ 
+                //Sinon
+                }else if(nameValid.test(firstName.value) == true){
+                  event.preventDefault();
+                  errorFirstName.textContent = null;
+                }else{
                 }
             }
   }
-    
-
+  function verificationLastName(){
+    //champs a vérifier..
+    let btnOrder = document.getElementById("order");
+    var lastName = document.getElementById("lastName");
+    var errorLastName = document.getElementById("lastNameErrorMsg");
+    var nameValid = /^[a-zA-ZéèîïÉÈÎÏ][a-zéèêàçîï]+([-'\s][a-zA-ZéèîïÉÈÎÏ][a-zéèêàçîï]+)?$/;
+            
+    btnOrder.addEventListener('click', validation);
+            
+      function validation(event){
+         //Si le champ est vide
+           if (lastName.validity.valueMissing){
+            event.preventDefault();
+            errorLastName.textContent = 'Nom manquant';
+              //Si le format de données est incorrect
+              }else if (nameValid.test(lastName.value) == false){
+                event.preventDefault();
+                errorLastName.textContent = 'Format incorrect';
+                //Sinon
+                }else if(nameValid.test(lastName.value) == true){
+                  event.preventDefault();
+                  errorLastName.textContent = null;
+                }else{
+                }
+            }
+  }
+  function verificationAddress(){
+    //champs a vérifier..
+    let btnOrder = document.getElementById("order");
+    var address = document.getElementById("address");
+    var errorAddress = document.getElementById("addressErrorMsg");
+    var nameValid = /^[a-zA-ZéèîïÉÈÎÏ][a-zéèêàçîï]+([-'\s][a-zA-ZéèîïÉÈÎÏ][a-zéèêàçîï]+)+([0-9].+$)?$/;
+            
+    btnOrder.addEventListener('click', validation);
+            
+      function validation(event){
+         //Si le champ est vide
+           if (address.validity.valueMissing){
+            event.preventDefault();
+            errorAddress.textContent = 'Adresse manquante';
+              //Si le format de données est incorrect
+              }else if (nameValid.test(address.value) == false){
+                event.preventDefault();
+                errorAddress.textContent = 'Format incorrect';
+                //Sinon
+                }else if(nameValid.test(address.value) == true){
+                  event.preventDefault();
+                  errorAddress.textContent = null;
+                }else{
+                }
+            }
+  }
+  function verificationCity(){
+    //champs a vérifier..
+    let btnOrder = document.getElementById("order");
+    var city = document.getElementById("city");
+    var errorCity = document.getElementById("cityErrorMsg");
+    var nameValid = /^[a-zA-ZéèîïÉÈÎÏ][a-zéèêàçîï]+([-'\s][a-zA-ZéèîïÉÈÎÏ][a-zéèêàçîï]+[0-9])?$/;
+            
+    btnOrder.addEventListener('click', validation);
+            
+      function validation(event){
+         //Si le champ est vide
+           if (city.validity.valueMissing){
+            event.preventDefault();
+            errorCity.textContent = 'Ville manquante';
+              //Si le format de données est incorrect
+              }else if (nameValid.test(city.value) == false){
+                event.preventDefault();
+                errorCity.textContent = 'Format incorrect';
+                //Sinon
+                }else if(nameValid.test(city.value) == true){
+                  event.preventDefault();
+                  errorCity.textContent = null;
+                }else{
+                }
+            }
+  }
 
 
 
