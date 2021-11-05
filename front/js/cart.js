@@ -44,7 +44,8 @@ function load_furnitures() {
     verificationLastName();
     verificationAddress();
     verificationCity();
-    
+    verificationEmail();
+
   }
 
 
@@ -82,7 +83,7 @@ function load_furnitures() {
     return result;
   }
   //function pour supprimer un item du panier. (localStorage + HTML)
-  function deleteItem(){
+  function deleteItem() {
     let buttons = document.querySelectorAll(".deleteItem");
     buttons.forEach(button => {
       button.addEventListener('click', () => {
@@ -95,11 +96,11 @@ function load_furnitures() {
         totalQuantity.innerHTML = total.quantity;
         totalPrice.innerHTML = total.total;
         button.parentElement.parentElement.parentElement.parentElement.remove();
+      })
     })
-  })
   }
   //Function pour ajouter ou enlever un produit via les inputs.
-  function addEvents(){
+  function addEvents() {
     let inputs = document.querySelectorAll(".itemQuantity");
     inputs.forEach(input => {
       input.addEventListener('change', () => {
@@ -112,9 +113,9 @@ function load_furnitures() {
         let total = getTotal(cart);
         totalQuantity.innerHTML = total.quantity;
         totalPrice.innerHTML = total.total;
-      } )
+      })
     })
-  } 
+  }
   // function qui additionne le total des produits du panier
   function getTotal(products) {
     let totalPrice = 0;
@@ -125,119 +126,118 @@ function load_furnitures() {
         quantity += products[object].quantity[color];
         totalQuantity += products[object].quantity[color];
       }
-      totalPrice += quantity*products[object].price;
+      totalPrice += quantity * products[object].price;
     }
-    return {quantity: totalQuantity, total: totalPrice};
+    return { quantity: totalQuantity, total: totalPrice };
   }
 
-  function verificationFirstName(){
-    //champs a vérifier..
-    let btnOrder = document.getElementById("order");
-    var firstName = document.getElementById("firstName");
-    var errorFirstName = document.getElementById("firstNameErrorMsg");
-    var nameValid = /^[a-zA-ZéèîïÉÈÎÏ][a-zéèêàçîï]+([-'\s][a-zA-ZéèîïÉÈÎÏ][a-zéèêàçîï]+)?$/;
-            
-    btnOrder.addEventListener('click', validation);
-            
-      function validation(event){
-         //Si le champ est vide
-           if (firstName.validity.valueMissing){
-            event.preventDefault();
-            errorFirstName.textContent = 'Prénom manquant';
-              //Si le format de données est incorrect
-              }else if (nameValid.test(firstName.value) == false){
-                event.preventDefault();
-                errorFirstName.textContent = 'Format incorrect';
-                //Sinon
-                }else if(nameValid.test(firstName.value) == true){
-                  event.preventDefault();
-                  errorFirstName.textContent = null;
-                }else{
-                }
-            }
-  }
-  function verificationLastName(){
-    //champs a vérifier..
-    let btnOrder = document.getElementById("order");
-    var lastName = document.getElementById("lastName");
-    var errorLastName = document.getElementById("lastNameErrorMsg");
-    var nameValid = /^[a-zA-ZéèîïÉÈÎÏ][a-zéèêàçîï]+([-'\s][a-zA-ZéèîïÉÈÎÏ][a-zéèêàçîï]+)?$/;
-            
-    btnOrder.addEventListener('click', validation);
-            
-      function validation(event){
-         //Si le champ est vide
-           if (lastName.validity.valueMissing){
-            event.preventDefault();
-            errorLastName.textContent = 'Nom manquant';
-              //Si le format de données est incorrect
-              }else if (nameValid.test(lastName.value) == false){
-                event.preventDefault();
-                errorLastName.textContent = 'Format incorrect';
-                //Sinon
-                }else if(nameValid.test(lastName.value) == true){
-                  event.preventDefault();
-                  errorLastName.textContent = null;
-                }else{
-                }
-            }
-  }
-  function verificationAddress(){
-    //champs a vérifier..
-    let btnOrder = document.getElementById("order");
-    var address = document.getElementById("address");
-    var errorAddress = document.getElementById("addressErrorMsg");
-    var nameValid = /^[a-zA-ZéèîïÉÈÎÏ][a-zéèêàçîï]+([-'\s][a-zA-ZéèîïÉÈÎÏ][a-zéèêàçîï]+)+([0-9].+$)?$/;
-            
-    btnOrder.addEventListener('click', validation);
-            
-      function validation(event){
-         //Si le champ est vide
-           if (address.validity.valueMissing){
-            event.preventDefault();
-            errorAddress.textContent = 'Adresse manquante';
-              //Si le format de données est incorrect
-              }else if (nameValid.test(address.value) == false){
-                event.preventDefault();
-                errorAddress.textContent = 'Format incorrect';
-                //Sinon
-                }else if(nameValid.test(address.value) == true){
-                  event.preventDefault();
-                  errorAddress.textContent = null;
-                }else{
-                }
-            }
-  }
-  function verificationCity(){
-    //champs a vérifier..
-    let btnOrder = document.getElementById("order");
-    var city = document.getElementById("city");
-    var errorCity = document.getElementById("cityErrorMsg");
-    var nameValid = /^[a-zA-ZéèîïÉÈÎÏ][a-zéèêàçîï]+([-'\s][a-zA-ZéèîïÉÈÎÏ][a-zéèêàçîï]+[0-9])?$/;
-            
-    btnOrder.addEventListener('click', validation);
-            
-      function validation(event){
-         //Si le champ est vide
-           if (city.validity.valueMissing){
-            event.preventDefault();
-            errorCity.textContent = 'Ville manquante';
-              //Si le format de données est incorrect
-              }else if (nameValid.test(city.value) == false){
-                event.preventDefault();
-                errorCity.textContent = 'Format incorrect';
-                //Sinon
-                }else if(nameValid.test(city.value) == true){
-                  event.preventDefault();
-                  errorCity.textContent = null;
-                }else{
-                }
-            }
+  function verificationFirstName() {
+    let firstName = document.getElementById("firstName");
+    let errorFirstName = document.getElementById("firstNameErrorMsg");
+    let nameValid = /^[a-zA-ZéèîïÉÈÎÏ][a-zéèêàçîï]+([-'\s][a-zA-ZéèîïÉÈÎÏ][a-zéèêàçîï]+)?$/;
+
+    if (firstName.validity.valueMissing) {
+      errorFirstName.textContent = 'Prénom manquant';
+    } else if (nameValid.test(firstName.value) == false) {
+      errorFirstName.textContent = 'Format incorrect';
+    } else if (nameValid.test(firstName.value) == true) {
+      errorFirstName.textContent = null;
+      return lastName.value;
+    }
+    return false;
   }
 
+  function verificationLastName() {
+    let lastName = document.getElementById("lastName");
+    let errorLastName = document.getElementById("lastNameErrorMsg");
+    let nameValid = /^[a-zA-ZéèîïÉÈÎÏ][a-zéèêàçîï]+([-'\s][a-zA-ZéèîïÉÈÎÏ][a-zéèêàçîï]+)?$/;
+
+    if (lastName.validity.valueMissing) {
+      errorLastName.textContent = 'Nom manquant';
+    } else if (nameValid.test(lastName.value) == false) {
+      errorLastName.textContent = 'Format incorrect';
+    } else if (nameValid.test(lastName.value) == true) {
+      errorLastName.textContent = null;
+      return lastName.value;
+    }
+    return false;
+  }
+
+  function verificationAddress() {
+    let address = document.getElementById("address");
+    let errorAddress = document.getElementById("addressErrorMsg");
+    let nameValid = /^[a-zA-ZéèîïÉÈÎÏ0-9]+([-'\s][a-zA-ZéèîïÉÈÎÏ][a-zéèêàçîï]+)+$/;
+
+    if (address.validity.valueMissing) {
+      errorAddress.textContent = 'Adresse manquante';
+    } else if (nameValid.test(address.value) == false) {
+      errorAddress.textContent = 'Format incorrect';
+    } else if (nameValid.test(address.value) == true) {
+      errorAddress.textContent = null;
+      return address.value;
+    }
+    return false;
+  }
+
+function verificationCity() {
+  //champs a vérifier..
+  let city = document.getElementById("city");
+  let errorCity = document.getElementById("cityErrorMsg");
+  let nameValid = /^[a-zA-ZéèîïÉÈÎÏ][a-zéèêàçîï]+([-'\s][a-zA-ZéèîïÉÈÎÏ0-9][a-zéèêàçîï0-9]+)*$/;
+
+  if (city.validity.valueMissing) {
+    errorCity.textContent = 'Ville manquante';
+  } else if (nameValid.test(city.value) == false) {
+    errorCity.textContent = 'Format incorrect';
+  } else if (nameValid.test(city.value) == true) {
+    errorCity.textContent = null;
+    return city.value;
+  }
+  return false
+}
+
+function verificationEmail() {
+  let email = document.getElementById("email");
+  let errorEmail = document.getElementById("emailErrorMsg");
+  let nameValid = /^[a-zA-Z-]+@[a-zA-Z-]+\.[a-zA-Z]{2,6}$/;
+
+  if (email.validity.valueMissing) {
+    errorEmail.textContent = 'Email manquant';
+  } else if (nameValid.test(email.value) == false) {
+    errorEmail.textContent = 'Format incorrect';
+  } else if (nameValid.test(email.value) == true) {
+    errorEmail.textContent = null;
+    return email.value;
+  }
+  return false;
+
+}
+
+let btnOrder = document.getElementById("order");
+
+btnOrder.addEventListener('click', e => {
+  e.preventDefault();
+  let valid = 1;
+  let contact = {};
+  let firstName = verificationFirstName();
+  let lastName = verificationLastName();
+  let address = verificationAddress();
+  let city = verificationCity();
+  let email = verificationEmail();
+
+  if (email) {
+    contact["firstName"] = firstName;
+    contact["lastName"] = lastName;
+    contact["address"] = address;
+    contact["city"] = city;
+    contact["email"] = email;
+    console.log(contact);
+  } else {
+    valid = 0;
+  }
+
+  // Si tous les champs son correct alors fetch vers le order
 
 
-
-
-
+});
 }
