@@ -40,11 +40,6 @@ function load_furnitures() {
     //AddEvents ajouter et changer des quantités
     addEvents();
     deleteItem();
-    verificationFirstName();
-    verificationLastName();
-    verificationAddress();
-    verificationCity();
-    verificationEmail();
 
   }
 
@@ -166,7 +161,7 @@ function load_furnitures() {
   function verificationAddress() {
     let address = document.getElementById("address");
     let errorAddress = document.getElementById("addressErrorMsg");
-    let nameValid = /^[a-zA-ZéèîïÉÈÎÏ0-9]+([-'\s][a-zA-ZéèîïÉÈÎÏ][a-zéèêàçîï]+)+$/;
+    let nameValid = /^[a-zA-ZéèîïÉÈÎÏ0-9]+([-'\s][a-zA-ZéèîïÉÈÎÏ0-9][a-zéèêàçîï]+)+$/;
 
     if (address.validity.valueMissing) {
       errorAddress.textContent = 'Adresse manquante';
@@ -231,13 +226,30 @@ btnOrder.addEventListener('click', e => {
     contact["address"] = address;
     contact["city"] = city;
     contact["email"] = email;
-    console.log(contact);
   } else {
     valid = 0;
   }
 
+  console.log(cart);
+  let arrayContact = []
+  for (let id in cart) {
+    arrayContact.push(id);
+  }
+  console.log(arrayContact);
+  fetch(`http://localhost:3000/api/products/order`, {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({contact, products:arrayContact})
+  })  
+    
+        .then(Response => Response.json())
+        .then(Response => {
+          localStorage.setItem("orderId", Response.orderId);
+          // Add orderid revoir confirmation
+          document.location.href = "confirmation.html";
+        })
   // Si tous les champs son correct alors fetch vers le order
-
+  
 
 });
 }
