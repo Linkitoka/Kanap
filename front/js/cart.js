@@ -245,8 +245,9 @@ btnOrder.addEventListener('click', e => {
         .then(Response => Response.json())
         .then(Response => {
           localStorage.setItem("orderId", Response.orderId);
+          console.log(Response.orderId);
           // Add orderid revoir confirmation
-          document.location.href = "confirmation.html";
+         document.location.href = "confirmation.html";
         })
   // Si tous les champs son correct alors fetch vers le order
   
