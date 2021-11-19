@@ -27,8 +27,6 @@ function load_furnitures() {
             price.innerHTML = Furniture.price;
             description.innerHTML = Furniture.description;
             option.innerHTML = colorArray(Furniture);
-            // Panier ----------------------
-            // Recupération de l'option de couleurs
             //selection de l'id du choix des couleurs = colors
             const idColors = document.querySelector("#colors");
             //Selection du bouton add to cart
@@ -54,10 +52,10 @@ function load_furnitures() {
                 
                 
                 
-                console.log(optionProduct);
-                let panier = JSON.parse(localStorage.getItem("productLocalStorage"));
+               
+                let panier = JSON.parse(localStorage.getItem("panierLocalStorage"));
                 if (!panier){
-                    localStorage.setItem("productLocalStorage",JSON.stringify({}))
+                    localStorage.setItem("panierLocalStorage",JSON.stringify({}))
                     panier = {};
                 }
 
@@ -68,22 +66,12 @@ function load_furnitures() {
                         panier[Furniture._id].quantity[choiceColor] = parseInt(quantity.value);
                     }
                     
-                    localStorage.setItem("productLocalStorage",JSON.stringify(panier));
-                    /*confirmPopup();*/
+                    localStorage.setItem("panierLocalStorage",JSON.stringify(panier));
+                    
                     
                 } else {
                     panier[Furniture._id] = optionProduct;
-                    localStorage.setItem("productLocalStorage",JSON.stringify(panier));
-
-                }
-                //fonction popup
-                function confirmPopup() {
-                    if (window.confirm(` ${Furniture.name} couleur: ${choiceColor} a bien été ajouté au panier
-                    Continuer  OK  panier ANNULER`)) {
-                        window.location.href = "index.html";
-                    } else {
-                        window.location.href = "cart.html";
-                    }
+                    localStorage.setItem("panierLocalStorage",JSON.stringify(panier));
 
                 }
             })
@@ -108,8 +96,4 @@ function colorArray(article) {
         result += `<option value="${color}">${color}</option>`
     }
     return result;
-
 }
-/*var input = document.createElement("input");
-input.id = "quantity";
-input.type = "number"; */

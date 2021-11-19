@@ -2,12 +2,12 @@
 // S'execute au chargement de la page
 window.addEventListener('load', function () {
     // Injecte les données de l'API furniture
-    load_furnitures();
+    loadFurnitures();
 });
 
 
 // Rempli la div meubles avec les données de l'API furniture
-function load_furnitures() {
+function loadFurnitures() {
     let div = document.getElementById("items");
 
     fetch("http://localhost:3000/api/products")
@@ -19,7 +19,8 @@ function load_furnitures() {
                
             }
         });
-}   
+}  
+
 
 // Retourne une div avec ses classes son contenu
 function creatDiv(element) {
@@ -31,4 +32,3 @@ function creatDiv(element) {
                 </article>
             </a>`;
 }
-

@@ -1,9 +1,14 @@
-orderIdClear();
+start();
+
+function start(){
+  orderIdClear();
+};
 
 function orderIdClear() {
-    const orderId = document.querySelector("orderid");
-    orderId.innerText = localStorage.getItem("orderId");
-  
+    let orderIdLS = document.querySelector("#orderId");
+    let orderId = localStorage.getItem("orderId");
+    orderIdLS.innerHTML = orderId;
     // On vide le localStorage pour recommencer plus tard le processus d'achat
     localStorage.clear(); 
   }
+  

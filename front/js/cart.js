@@ -10,24 +10,20 @@ window.addEventListener('load', function () {
 function load_furnitures() {
 
 
-  let cart = JSON.parse(localStorage.getItem("productLocalStorage"));
+  let cart = JSON.parse(localStorage.getItem("panierLocalStorage"));
 
   // Creation du code html pour le panier
   let addProductInCard = document.getElementById("cart__items");
   // Creation du code html pour le panier VIDE
   let addCartProduct = document.getElementById("cartAndFormContainer");
-
   // Creation du code html pour le totalquantity du panier
   let totalQuantity = document.getElementById("totalQuantity");
   // Creation du code html pour le totalprice du panier
   let totalPrice = document.getElementById("totalPrice");
 
-  //Variable de la function pour le panier VIDE
-  let cartEmpty = cartEmptyFunction();
-
   //SI le panier est vide alors function vide SINON boucle pour récupéré les objects dans le LocalStorage
   if (!cart) {
-    addCartProduct.innerHTML = cartEmpty;
+    addCartProduct.innerHTML = cartEmptyFunction();
 
   } else {
     //Variable de la function pour le panier pleins
@@ -84,9 +80,9 @@ function load_furnitures() {
       button.addEventListener('click', () => {
         let id = button.parentElement.parentElement.parentElement.parentElement.dataset.id;
         let color = button.parentElement.parentElement.parentElement.parentElement.dataset.color;
-        let cart = JSON.parse(localStorage.getItem("productLocalStorage"));
+        let cart = JSON.parse(localStorage.getItem("panierLocalStorage"));
         delete cart[id].quantity[color];
-        localStorage.setItem("productLocalStorage", JSON.stringify(cart));
+        localStorage.setItem("panierLocalStorage", JSON.stringify(cart));
         let total = getTotal(cart);
         totalQuantity.innerHTML = total.quantity;
         totalPrice.innerHTML = total.total;
@@ -94,6 +90,7 @@ function load_furnitures() {
       })
     })
   }
+  
   //Function pour ajouter ou enlever un produit via les inputs.
   function addEvents() {
     let inputs = document.querySelectorAll(".itemQuantity");
@@ -102,9 +99,9 @@ function load_furnitures() {
         let id = input.parentElement.parentElement.parentElement.parentElement.dataset.id;
         let color = input.parentElement.parentElement.parentElement.parentElement.dataset.color;
         let quantity = input.value;
-        let cart = JSON.parse(localStorage.getItem("productLocalStorage"));
+        let cart = JSON.parse(localStorage.getItem("panierLocalStorage"));
         cart[id].quantity[color] = parseInt(quantity);
-        localStorage.setItem("productLocalStorage", JSON.stringify(cart));
+        localStorage.setItem("panierLocalStorage", JSON.stringify(cart));
         let total = getTotal(cart);
         totalQuantity.innerHTML = total.quantity;
         totalPrice.innerHTML = total.total;
@@ -125,7 +122,7 @@ function load_furnitures() {
     }
     return { quantity: totalQuantity, total: totalPrice };
   }
-
+  // function vérifie les formule
   function verificationFirstName() {
     let firstName = document.getElementById("firstName");
     let errorFirstName = document.getElementById("firstNameErrorMsg");
@@ -174,83 +171,81 @@ function load_furnitures() {
     return false;
   }
 
-function verificationCity() {
-  //champs a vérifier..
-  let city = document.getElementById("city");
-  let errorCity = document.getElementById("cityErrorMsg");
-  let nameValid = /^[a-zA-ZéèîïÉÈÎÏ][a-zéèêàçîï]+([-'\s][a-zA-ZéèîïÉÈÎÏ0-9][a-zéèêàçîï0-9]+)*$/;
+  function verificationCity() {
+    //champs a vérifier..
+    let city = document.getElementById("city");
+    let errorCity = document.getElementById("cityErrorMsg");
+    let nameValid = /^[a-zA-ZéèîïÉÈÎÏ][a-zéèêàçîï]+([-'\s][a-zA-ZéèîïÉÈÎÏ0-9][a-zéèêàçîï0-9]+)*$/;
 
-  if (city.validity.valueMissing) {
-    errorCity.textContent = 'Ville manquante';
-  } else if (nameValid.test(city.value) == false) {
-    errorCity.textContent = 'Format incorrect';
-  } else if (nameValid.test(city.value) == true) {
-    errorCity.textContent = null;
-    return city.value;
-  }
-  return false
-}
-
-function verificationEmail() {
-  let email = document.getElementById("email");
-  let errorEmail = document.getElementById("emailErrorMsg");
-  let nameValid = /^[a-zA-Z-]+@[a-zA-Z-]+\.[a-zA-Z]{2,6}$/;
-
-  if (email.validity.valueMissing) {
-    errorEmail.textContent = 'Email manquant';
-  } else if (nameValid.test(email.value) == false) {
-    errorEmail.textContent = 'Format incorrect';
-  } else if (nameValid.test(email.value) == true) {
-    errorEmail.textContent = null;
-    return email.value;
-  }
-  return false;
-
-}
-
-let btnOrder = document.getElementById("order");
-
-btnOrder.addEventListener('click', e => {
-  e.preventDefault();
-  let valid = 1;
-  let contact = {};
-  let firstName = verificationFirstName();
-  let lastName = verificationLastName();
-  let address = verificationAddress();
-  let city = verificationCity();
-  let email = verificationEmail();
-
-  if (email) {
-    contact["firstName"] = firstName;
-    contact["lastName"] = lastName;
-    contact["address"] = address;
-    contact["city"] = city;
-    contact["email"] = email;
-  } else {
-    valid = 0;
+    if (city.validity.valueMissing) {
+      errorCity.textContent = 'Ville manquante';
+    } else if (nameValid.test(city.value) == false) {
+      errorCity.textContent = 'Format incorrect';
+    } else if (nameValid.test(city.value) == true) {
+      errorCity.textContent = null;
+      return city.value;
+    }
+    return false
   }
 
-  console.log(cart);
-  let arrayContact = []
-  for (let id in cart) {
-    arrayContact.push(id);
+  function verificationEmail() {
+    let email = document.getElementById("email");
+    let errorEmail = document.getElementById("emailErrorMsg");
+    let nameValid = /^[a-zA-Z-0-9]+@[a-zA-Z-]+\.[a-zA-Z]{2,6}$/;
+
+    if (email.validity.valueMissing) {
+      errorEmail.textContent = 'Email manquant';
+    } else if (nameValid.test(email.value) == false) {
+      errorEmail.textContent = 'Format incorrect';
+    } else if (nameValid.test(email.value) == true) {
+      errorEmail.textContent = null;
+      return email.value;
+    }
+    return false;
+
   }
-  console.log(arrayContact);
-  fetch(`http://localhost:3000/api/products/order`, {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({contact, products:arrayContact})
-  })  
+
+  let btnOrder = document.getElementById("order");
+  
+  btnOrder.addEventListener('click', e => {
+    e.preventDefault();
+    let valid = 1;
+    let contact = {};
+    let firstName = verificationFirstName();
+    let lastName = verificationLastName();
+    let address = verificationAddress();
+    let city = verificationCity();
+    let email = verificationEmail();
+
+    if (email) {
+      contact["firstName"] = firstName;
+      contact["lastName"] = lastName;
+      contact["address"] = address;
+      contact["city"] = city;
+      contact["email"] = email;
+    } else {
+      valid = 0;
+    }
     
+      // Si tous les champs son correct alors fetch vers le order
+    let arrayContact = []
+    for (let id in cart) {
+      arrayContact.push(id);
+    }
+    
+    if (valid) {
+      fetch(`http://localhost:3000/api/products/order`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ contact, products: arrayContact })
+      })
         .then(Response => Response.json())
         .then(Response => {
           localStorage.setItem("orderId", Response.orderId);
-          console.log(Response.orderId);
-          // Add orderid revoir confirmation
-         document.location.href = "confirmation.html";
+          
+          // Add orderid avec confirmation
+          document.location.href = "confirmation.html";
         })
-  // Si tous les champs son correct alors fetch vers le order
-  
-
-});
+    }
+  });
 }
